@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: lbhelper-rs
+  labels:
+    app: lbhelper
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lbhelper
+  template:
+    metadata:
+      labels:
+        app: lbhelper
+    spec:
+      containers:
+        - name: lbhelper
+          image: 10.249.244.11:5000/lbhelper 
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+      restartPolicy: Always
