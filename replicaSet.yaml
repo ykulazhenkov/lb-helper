@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: lbhelper
-          image: 10.249.244.11:5000/lbhelper 
+          image: lbhelper 
           env:
             - name: NODE_NAME
               valueFrom:
